@@ -1,5 +1,7 @@
 package in.app.lostFoundItem.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,23 +11,38 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
-public class Address {
+public class Address implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8936896908875324102L;
+
 	@Id
 	@Column(name="address_Id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long addressID;
+	
 	@Column(name="Address_State")
 	private String state;
+	
+	
 	@Column(name="Address_district")
 	private String district;
+	
+	
 	@Column(name="pincode")
 	private Integer pinCode;
+	
+	
 	public String getState() {
 		return state;
 	}
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne()
+	@JsonBackReference
 	@JoinColumn(name="Employee_Id")
 	private Employee emp;
 	
@@ -60,10 +77,6 @@ public class Address {
 	public void setEmp(Employee emp) {
 		this.emp = emp;
 	}
-	
-	
-	
-	
 	
 
 }

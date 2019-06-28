@@ -1,6 +1,8 @@
 package in.app.lostFoundItem.entity;
 
+import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -15,10 +17,16 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @NamedQuery(name="Employee.AllEmployees" ,query="Select e from Employee e")
-public class Employee {
+public class Employee implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3441087101500964361L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="emp_ID")
@@ -28,8 +36,9 @@ public class Employee {
 	@Column(name="emp_salary")
 	private Double salary;
 	
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="emp",fetch=FetchType.LAZY)
-	private List<Address> addList=null;
+	@OneToMany(mappedBy="emp",cascade=CascadeType.ALL)
+	@JsonManagedReference
+	private List<Address> addList=new ArrayList<>();
 	
 	
 	public List<Address> getAddList() {

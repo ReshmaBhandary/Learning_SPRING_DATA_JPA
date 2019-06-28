@@ -1,5 +1,6 @@
 package in.app.lostFoundItem.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,15 +41,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public void saveEmployee(Employee e) {
-		Employee e1=employeeRepository.save(e);
-		System.out.println("******************************  "+e1.getAddList());
-		/*List<Address> list=e.getAddList();
-		for(Address a1:list) {
-			a1.sete
-		}*/
-		
-		
+	public void saveEmployee(Employee emp) {
+		employeeRepository.save(emp);
 	}
 
 	@Override
@@ -58,7 +52,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 	public Employee getEmployeeByIdAndName(Long id,String name) {
 		Employee emp=employeeRepository.findByEmployeeIDAndEmployeeName(id,name);
-		
 		return emp;
 	}
 
@@ -76,12 +69,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	@Override
 	public List<Address> getAddressState(String state,Long empID) {
-		Optional<Employee> empList = employeeRepository.findById(empID);
-		if(empList.isPresent()) {
-		Employee emp=	empList.get();
-		return emp.getAddList();
-	//	addressRepository.findByState(state);
+		Optional<Employee> emp = employeeRepository.findById(empID);
+		if(emp.isPresent()) {
+			return addressRepository.findByState(emp.get(),state);
 		}
+		
 		return null;
 	}
 

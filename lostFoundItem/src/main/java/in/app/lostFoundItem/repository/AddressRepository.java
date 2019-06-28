@@ -12,7 +12,7 @@ import in.app.lostFoundItem.entity.Address;
 import in.app.lostFoundItem.entity.Employee;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long>{
-
-	List<Address> findByState(String state);
+@Query("Select a from Address a where a.state=:state and a.emp=:emp ")
+	List<Address> findByState(@Param("emp")Employee emp,@Param("state") String state);
 
 }
